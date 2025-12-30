@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiesioginių Nuotraukų Testas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #1a1a2e 100%);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .image-test {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .image-test img {
+            width: 200px;
+            height: 267px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .image-info h3 {
+            margin: 0 0 10px 0;
+            color: #00D4AA;
+        }
+        .image-info p {
+            margin: 5px 0;
+            opacity: 0.9;
+        }
+        .url {
+            font-size: 12px;
+            color: #ccc;
+            word-break: break-all;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .success {
+            border-left: 4px solid #00D4AA;
+        }
+        .error {
+            border-left: 4px solid #ff4757;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖼️ Tiesioginių Nuotraukų Testas</h1>
+        <p>Testuojame konkrečius URL, kuriuos grąžina backend</p>
+        
+        <div class="image-test">
+            <img src="https://upload.wikimedia.org/wikipedia/en/a/a6/FIFA_23_Cover.jpg" alt="FIFA 23">
+            <div class="image-info">
+                <h3>FIFA 23 - Wikipedia</h3>
+                <p><strong>Šaltinis:</strong> Wikipedia oficialus cover</p>
+                <p><strong>Turėtų rodyti:</strong> Kylian Mbappé su futbolo kamuoliu</p>
+                <div class="url">https://upload.wikimedia.org/wikipedia/en/a/a6/FIFA_23_Cover.jpg</div>
+            </div>
+        </div>
+
+        <div class="image-test">
+            <img src="https://media.rawg.io/media/games/511/5118aff5091cb3efec399c808f8c598f.jpg" alt="Red Dead Redemption 2">
+            <div class="image-info">
+                <h3>Red Dead Redemption 2 - RAWG</h3>
+                <p><strong>Šaltinis:</strong> RAWG Gaming Database</p>
+                <p><strong>Turėtų rodyti:</strong> Arthur Morgan western stiliuje</p>
+                <div class="url">https://media.rawg.io/media/games/511/5118aff5091cb3efec399c808f8c598f.jpg</div>
+            </div>
+        </div>
+
+        <div class="image-test">
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2152580/header.jpg" alt="Split Fiction">
+            <div class="image-info">
+                <h3>Split Fiction - Steam</h3>
+                <p><strong>Šaltinis:</strong> Steam Store</p>
+                <p><strong>Turėtų rodyti:</strong> Co-op adventure žaidimo artwork</p>
+                <div class="url">https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2152580/header.jpg</div>
+            </div>
+        </div>
+
+        <h2>🎯 Diagnostika:</h2>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        // Testuojame kiekvieną nuotrauką
+        const images = document.querySelectorAll('.image-test img');
+        const results = document.getElementById('results');
+        let loadedCount = 0;
+        let errorCount = 0;
+
+        images.forEach((img, index) => {
+            const testDiv = img.closest('.image-test');
+            
+            img.onload = () => {
+                loadedCount++;
+                console.log(`✅ Nuotrauka ${index + 1} užsikrovė: ${img.src}`);
+                testDiv.classList.add('success');
+                updateResults();
+            };
+            
+            img.onerror = () => {
+                errorCount++;
+                console.error(`❌ Nuotrauka ${index + 1} nepavyko: ${img.src}`);
+                testDiv.classList.add('error');
+                testDiv.style.opacity = '0.7';
+                updateResults();
+            };
+        });
+
+        function updateResults() {
+            const total = images.length;
+            const processed = loadedCount + errorCount;
+            
+            if (processed === total) {
+                results.innerHTML = `
+                    <div style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                        <h3>📊 Rezultatai:</h3>
+                        <p><strong>Užsikrovė:</strong> ${loadedCount}/${total}</p>
+                        <p><strong>Nepavyko:</strong> ${errorCount}/${total}</p>
+                        ${loadedCount === total ? 
+                            '<p style="color: #00D4AA;"><strong>✅ Visos nuotraukos veikia!</strong></p>' : 
+                            '<p style="color: #ffa502;"><strong>⚠️ Kai kurios nuotraukos neveikia</strong></p>'
+                        }
+                        <p><strong>Sprendimas:</strong> ${loadedCount > 0 ? 
+                            'Jei čia veikia, bet tinklalapyje ne - atnaujinkite naršyklę (Ctrl+F5)' : 
+                            'Reikia patikrinti internetą arba CORS nustatymus'
+                        }</p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

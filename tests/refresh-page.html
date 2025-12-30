@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔄 Atnaujinti Tinklalapį</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #1a1a2e 100%);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            max-width: 600px;
+        }
+        .big-button {
+            background: linear-gradient(45deg, #00D4AA, #00b894);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 15px;
+            cursor: pointer;
+            margin: 20px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .big-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 212, 170, 0.3);
+        }
+        .instruction {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .step {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #00D4AA;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Atnaujinti Cover'ius</h1>
+        <p>Backend dabar grąžina tikrus cover'ius, bet frontend gali cache'inti senus duomenis</p>
+
+        <a href="http://localhost:3000" class="big-button" target="_blank">
+            🌐 Atidaryti Tinklalapį
+        </a>
+
+        <div class="instruction">
+            <h3>📋 Jei Cover'iai Vis Dar Netinkami:</h3>
+            
+            <div class="step">
+                <strong>1. Hard Refresh:</strong> Ctrl+F5 arba Ctrl+Shift+R
+            </div>
+            
+            <div class="step">
+                <strong>2. Išvalyti Cache:</strong>
+                <br>• F12 → Application → Storage → Clear site data
+                <br>• Arba Settings → Privacy → Clear browsing data
+            </div>
+            
+            <div class="step">
+                <strong>3. Patikrinti Console:</strong>
+                <br>• F12 → Console
+                <br>• Ieškoti klaidų (raudonos žinutės)
+            </div>
+            
+            <div class="step">
+                <strong>4. Incognito Mode:</strong>
+                <br>• Ctrl+Shift+N (Chrome)
+                <br>• Ctrl+Shift+P (Firefox)
+            </div>
+        </div>
+
+        <div class="instruction">
+            <h3>✅ Kas Turėtų Veikti:</h3>
+            <p><strong>FIFA 23:</strong> Kylian Mbappé su futbolo kamuoliu (Wikipedia)</p>
+            <p><strong>Red Dead Redemption 2:</strong> Arthur Morgan western stiliuje (RAWG)</p>
+            <p><strong>Split Fiction:</strong> Co-op adventure artwork (Steam)</p>
+        </div>
+
+        <button class="big-button" onclick="testAPI()">
+            🔧 Testuoti API
+        </button>
+
+        <div id="api-result" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('api-result');
+            resultDiv.innerHTML = '<p>🔄 Testuojame API...</p>';
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/list?t=' + Date.now());
+                const data = await response.json();
+                
+                if (data.games && data.games.length > 0) {
+                    const fifa = data.games.find(g => g.name.includes('FIFA'));
+                    const rdr = data.games.find(g => g.name.includes('Red Dead'));
+                    const split = data.games.find(g => g.name.includes('Split'));
+                    
+                    resultDiv.innerHTML = `
+                        <div style="background: rgba(0, 212, 170, 0.2); padding: 15px; border-radius: 10px; text-align: left;">
+                            <h4>✅ API Veikia!</h4>
+                            ${fifa ? `<p><strong>FIFA 23:</strong> ${fifa.image_url.includes('wikipedia') ? '✅ Wikipedia' : '❌ Ne Wikipedia'}</p>` : ''}
+                            ${rdr ? `<p><strong>RDR2:</strong> ${rdr.image_url.includes('rawg') ? '✅ RAWG' : '❌ Ne RAWG'}</p>` : ''}
+                            ${split ? `<p><strong>Split Fiction:</strong> ${split.image_url.includes('steam') ? '✅ Steam' : '❌ Ne Steam'}</p>` : ''}
+                            <p><strong>Sprendimas:</strong> API veikia, reikia atnaujinti frontend cache</p>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<div style="background: rgba(255, 71, 87, 0.2); padding: 15px; border-radius: 10px;"><p>❌ API negrąžino žaidimų</p></div>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div style="background: rgba(255, 71, 87, 0.2); padding: 15px; border-radius: 10px;"><p>❌ API klaida: ${error.message}</p></div>`;
+            }
+        }
+    </script>
+</body>
+</html>

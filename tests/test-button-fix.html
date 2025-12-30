@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Mygtuko Testas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4518ac 0%, #3214a0 25%, #2a1185 50%, #1f0d6b 75%, #150a4d 100%);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .status {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        .success {
+            border-left: 4px solid #00ff88;
+        }
+        .error {
+            border-left: 4px solid #ff4757;
+        }
+        .test-card {
+            background: #1e1e2e;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 220px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            margin: 20px auto;
+        }
+        .test-image {
+            flex: 0 0 65%;
+            background: #2a2a3a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 14px;
+        }
+        .test-info {
+            flex: 1;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        .test-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 8px;
+            min-height: 36px;
+        }
+        .test-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #00ff88;
+            margin-bottom: 10px;
+        }
+        .test-button {
+            width: 100%;
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            color: #000;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: auto;
+            min-height: 36px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .test-button:hover {
+            background: linear-gradient(135deg, #00cc6a 0%, #00b85c 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Mygtuko Pataisymas</h1>
+        
+        <div class="status success">
+            <h3>✅ Kas Pataisyta</h3>
+            <p><strong>Kortelės aukštis:</strong> aspect-ratio: 2.5/4 + min-height: 320px</p>
+            <p><strong>Cover'io dalis:</strong> 65% (vietoj 70%)</p>
+            <p><strong>Mygtukas:</strong> margin-top: auto + min-height: 36px</p>
+        </div>
+
+        <div class="test-card">
+            <div class="test-image">
+                Game Cover Area (65%)
+            </div>
+            <div class="test-info">
+                <div class="test-title">Test Game Title</div>
+                <div class="test-price">€24.99</div>
+                <button class="test-button">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="status">
+            <h3>🎯 Sprendimas</h3>
+            <p>1. <strong>Flexbox layout</strong> - game-info naudoja flex: 1</p>
+            <p>2. <strong>margin-top: auto</strong> - mygtukas stumia į apačią</p>
+            <p>3. <strong>min-height</strong> - užtikrina minimalų aukštį</p>
+            <p>4. <strong>Didesnis aspect-ratio</strong> - daugiau vietos mygtukui</p>
+        </div>
+
+        <div class="status success">
+            <h3>🚀 Patikrinkite Tinklalapį</h3>
+            <p>Dabar <a href="http://localhost:3000" style="color: #00ff88;">http://localhost:3000</a> turėtų rodyti mygtukus!</p>
+        </div>
+    </div>
+
+    <script>
+        console.log('🔧 Mygtuko pataisymas:');
+        console.log('- Kortelės aukštis: aspect-ratio 2.5/4');
+        console.log('- Cover: 65% aukščio');
+        console.log('- Info: 35% aukščio su flexbox');
+        console.log('- Mygtukas: margin-top auto');
+    </script>
+</body>
+</html>

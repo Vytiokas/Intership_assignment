@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tikri Žaidimų Cover'iai - RAWG API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #1a1a2e 100%);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .game {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .game img {
+            width: 200px;
+            height: 133px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .game-info h3 {
+            margin: 0 0 10px 0;
+            color: #00D4AA;
+        }
+        .game-info p {
+            margin: 5px 0;
+            opacity: 0.9;
+        }
+        .success {
+            color: #00D4AA;
+            font-weight: bold;
+        }
+        .url {
+            font-size: 12px;
+            color: #ccc;
+            word-break: break-all;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .status {
+            background: rgba(0, 212, 170, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #00D4AA;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Tikri Žaidimų Cover'iai</h1>
+        <p>Naudojame <strong>RAWG Video Games Database API</strong> - patikimiausią žaidimų duomenų šaltinį</p>
+        
+        <div class="status">
+            <h3>✅ RAWG API Privalumai:</h3>
+            <p>• <strong>Nemokamas</strong> - nereikia API key basic naudojimui</p>
+            <p>• <strong>Aukštos kokybės</strong> - oficialūs žaidimų cover'iai</p>
+            <p>• <strong>CORS friendly</strong> - veikia iš browser</p>
+            <p>• <strong>Patikimas CDN</strong> - greitas loading</p>
+            <p>• <strong>Legalus</strong> - oficialus gaming API</p>
+        </div>
+
+        <div class="game">
+            <img src="https://media.rawg.io/media/games/83f/83f6f70a7c1b86cd2637b029d8b42caa.jpg" alt="FIFA 23">
+            <div class="game-info">
+                <h3>FIFA 23 ⚽ <span class="success">TIKRAS COVER!</span></h3>
+                <p><strong>EA Sports</strong> oficialus cover</p>
+                <p>Aukštos kokybės nuotrauka iš RAWG duomenų bazės</p>
+                <div class="url">https://media.rawg.io/media/games/83f/83f6f70a7c1b86cd2637b029d8b42caa.jpg</div>
+            </div>
+        </div>
+
+        <div class="game">
+            <img src="https://media.rawg.io/media/games/511/5118aff5091cb3efec399c808f8c598f.jpg" alt="Red Dead Redemption 2">
+            <div class="game-info">
+                <h3>Red Dead Redemption 2 🤠 <span class="success">TIKRAS COVER!</span></h3>
+                <p><strong>Rockstar Games</strong> oficialus cover</p>
+                <p>Ikoniškas western žaidimo artwork</p>
+                <div class="url">https://media.rawg.io/media/games/511/5118aff5091cb3efec399c808f8c598f.jpg</div>
+            </div>
+        </div>
+
+        <div class="game">
+            <img src="https://media.rawg.io/media/games/b29/b294fdd866dcdb643e7bab370a552855.jpg" alt="Split Fiction">
+            <div class="game-info">
+                <h3>Split Fiction 🎭 <span class="success">TIKRAS COVER!</span></h3>
+                <p><strong>Hazelight Studios</strong> oficialus cover</p>
+                <p>Naujas co-op adventure žaidimas</p>
+                <div class="url">https://media.rawg.io/media/games/b29/b294fdd866dcdb643e7bab370a552855.jpg</div>
+            </div>
+        </div>
+
+        <div class="status">
+            <h3>🚀 Kaip Veikia Backend:</h3>
+            <p>1. <strong>Tikslus mapping</strong> - kiekvienas žaidimo pavadinimas susietas su RAWG URL</p>
+            <p>2. <strong>Fuzzy search</strong> - jei tikslus pavadinimas nerastas, ieško pagal raktažodžius</p>
+            <p>3. <strong>Fallback system</strong> - jei RAWG nepavyko, naudoja placeholder</p>
+            <p>4. <strong>Cache friendly</strong> - RAWG CDN automatiškai cache'ina nuotraukas</p>
+        </div>
+
+        <div class="status">
+            <h3>🔧 Patikrinkite Tinklalapį:</h3>
+            <p>1. Atidaryti <a href="http://localhost:3000" style="color: #00D4AA;">http://localhost:3000</a></p>
+            <p>2. Dabar turėtumėte matyti tikrus žaidimų cover'ius</p>
+            <p>3. Paieška: "fifa", "red dead", "split" - visi turės tikras nuotraukas</p>
+        </div>
+    </div>
+
+    <script>
+        // Patikriname, ar visos nuotraukos užsikrauna
+        const images = document.querySelectorAll('img');
+        images.forEach((img, index) => {
+            img.onload = () => {
+                console.log(`✅ Nuotrauka ${index + 1} užsikrovė sėkmingai:`, img.src);
+            };
+            img.onerror = () => {
+                console.error(`❌ Nuotrauka ${index + 1} nepavyko užkrauti:`, img.src);
+            };
+        });
+
+        // Patikriname API
+        fetch('http://localhost:5000/api/list')
+            .then(response => response.json())
+            .then(data => {
+                console.log('🎮 Žaidimų su naujomis nuotraukomis:', data.games.length);
+                data.games.forEach(game => {
+                    console.log(`${game.name}: ${game.image_url}`);
+                });
+            })
+            .catch(error => {
+                console.error('❌ API klaida:', error);
+            });
+    </script>
+</body>
+</html>

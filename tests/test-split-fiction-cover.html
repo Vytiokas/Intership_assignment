@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split Fiction Cover Test - CORRECT APP ID</title>
+    <style>
+        body {
+            background: #1a1a2e;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        
+        .test-image {
+            max-width: 300px;
+            border: 2px solid #00ff88;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+        }
+        
+        .error {
+            border: 2px solid red !important;
+        }
+        
+        .success {
+            border: 2px solid #00ff88 !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>Split Fiction Cover URL Test - CORRECT Steam App ID: 2001120</h1>
+    
+    <div class="test-section">
+        <h3>❌ WRONG App ID (2152580) - Heroes of Drakemire</h3>
+        <p>URL: https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2152580/library_600x900.jpg</p>
+        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2152580/library_600x900.jpg" 
+             alt="Wrong - Heroes of Drakemire" class="test-image" 
+             onerror="this.classList.add('error'); this.alt='FAILED TO LOAD';">
+    </div>
+    
+    <div class="test-section">
+        <h3>✅ CORRECT App ID (2001120) - Split Fiction Library</h3>
+        <p>URL: https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2001120/library_600x900.jpg</p>
+        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2001120/library_600x900.jpg" 
+             alt="Correct Split Fiction Library" class="test-image"
+             onerror="this.classList.add('error'); this.alt='FAILED TO LOAD';"
+             onload="this.classList.add('success');">
+    </div>
+    
+    <div class="test-section">
+        <h3>✅ CORRECT App ID (2001120) - Split Fiction Header</h3>
+        <p>URL: https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2001120/header.jpg</p>
+        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2001120/header.jpg" 
+             alt="Correct Split Fiction Header" class="test-image"
+             onerror="this.classList.add('error'); this.alt='FAILED TO LOAD';"
+             onload="this.classList.add('success');">
+    </div>
+    
+    <div class="test-section">
+        <h3>✅ CORRECT App ID (2001120) - Split Fiction Capsule</h3>
+        <p>URL: https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2001120/capsule_616x353.jpg</p>
+        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2001120/capsule_616x353.jpg" 
+             alt="Correct Split Fiction Capsule" class="test-image"
+             onerror="this.classList.add('error'); this.alt='FAILED TO LOAD';"
+             onload="this.classList.add('success');">
+    </div>
+    
+    <script>
+        // Test which images load successfully
+        const images = document.querySelectorAll('.test-image');
+        images.forEach((img, index) => {
+            img.onload = function() {
+                console.log(`✅ Image ${index + 1} loaded successfully:`, this.src);
+                this.classList.add('success');
+            };
+            img.onerror = function() {
+                console.log(`❌ Image ${index + 1} failed to load:`, this.src);
+                this.classList.add('error');
+            };
+        });
+    </script>
+</body>
+</html>

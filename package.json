@@ -1,0 +1,32 @@
+{
+  "name": "game-search-app",
+  "version": "1.0.0",
+  "description": "Game search web application similar to Eneba",
+  "scripts": {
+    "install-all": "cd backend && npm install && cd ../frontend && npm install",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd backend && npm run dev",
+    "frontend": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
+    "build:all": "npm install && cd backend && npm install && cd ../frontend && npm install && npm run build",
+    "start": "cd backend && npm start"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "serverless-http": "^3.2.0",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "keywords": [
+    "games",
+    "search",
+    "react",
+    "nodejs",
+    "eneba"
+  ],
+  "author": "",
+  "license": "MIT"
+}

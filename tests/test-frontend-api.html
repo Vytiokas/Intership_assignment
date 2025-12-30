@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend API Testas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #1a1a2e 100%);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .test-result {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        .success {
+            border-left: 4px solid #00D4AA;
+        }
+        .error {
+            border-left: 4px solid #ff4757;
+        }
+        .game-item {
+            background: rgba(255, 255, 255, 0.05);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .game-item img {
+            width: 80px;
+            height: 107px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .game-info h4 {
+            margin: 0 0 5px 0;
+            color: #00D4AA;
+        }
+        .game-info p {
+            margin: 2px 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .url {
+            font-size: 11px;
+            color: #ccc;
+            word-break: break-all;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3px 6px;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Frontend API Testas</h1>
+        <p>Testuojame, kokius duomenis gauna React aplikacija iš backend</p>
+        
+        <div id="results"></div>
+        
+        <div class="test-result">
+            <h3>🎯 Sprendimas</h3>
+            <p>Jei čia matote tinkamus URL, bet React aplikacijoje ne:</p>
+            <p>1. <strong>GameCard komponentas</strong> gali override'inti URL</p>
+            <p>2. <strong>React cache</strong> - reikia restartinti development serverį</p>
+            <p>3. <strong>Browser cache</strong> - hard refresh arba incognito</p>
+        </div>
+    </div>
+
+    <script>
+        async function testFrontendAPI() {
+            const resultsDiv = document.getElementById('results');
+            
+            try {
+                // Testuojame tą patį endpoint, kurį naudoja React
+                const response = await fetch(`http://localhost:5000/api/list?t=${Date.now()}`);
+                const data = await response.json();
+                
+                if (data.games && data.games.length > 0) {
+                    let html = `
+                        <div class="test-result success">
+                            <h3>✅ API Veikia (${data.games.length} žaidimų)</h3>
+                            <p><strong>Endpoint:</strong> http://localhost:5000/api/list</p>
+                            <p><strong>Response time:</strong> ${new Date().toLocaleTimeString()}</p>
+                        </div>
+                    `;
+                    
+                    // Rodyti kiekvieną žaidimą
+                    data.games.forEach((game, index) => {
+                        const isCorrectURL = 
+                            (game.name.includes('FIFA') && game.image_url.includes('wikipedia')) ||
+                            (game.name.includes('Red Dead') && game.image_url.includes('rawg')) ||
+                            (game.name.includes('Split') && game.image_url.includes('steam'));
+                        
+                        html += `
+                            <div class="game-item" style="border-left: 4px solid ${isCorrectURL ? '#00D4AA' : '#ff4757'}">
+                                <img src="${game.image_url}" alt="${game.name}" 
+                                     onload="console.log('✅ Image loaded:', this.src)"
+                                     onerror="console.error('❌ Image failed:', this.src); this.style.opacity='0.5';">
+                                <div class="game-info">
+                                    <h4>${game.name}</h4>
+                                    <p><strong>Platform:</strong> ${game.platform}</p>
+                                    <p><strong>Price:</strong> €${game.price}</p>
+                                    <p><strong>Status:</strong> ${isCorrectURL ? '✅ Correct URL' : '❌ Wrong URL'}</p>
+                                    <div class="url">${game.image_url}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    resultsDiv.innerHTML = html;
+                    
+                    // Console log'ai
+                    console.log('🎮 API Response:', data);
+                    console.log('📊 Games with URLs:');
+                    data.games.forEach(game => {
+                        console.log(`${game.name}: ${game.image_url}`);
+                    });
+                    
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result error">
+                            <h3>❌ API Negrąžino Žaidimų</h3>
+                            <p>Response: ${JSON.stringify(data)}</p>
+                        </div>
+                    `;
+                }
+                
+            } catch (error) {
+                console.error('API Error:', error);
+                resultsDiv.innerHTML = `
+                    <div class="test-result error">
+                        <h3>❌ API Klaida</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p><strong>Patikrinkite:</strong> Ar backend serveris veikia port 5000?</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Pradėti testą
+        testFrontendAPI();
+        
+        // Atnaujinti kas 10 sekundžių
+        setInterval(testFrontendAPI, 10000);
+    </script>
+</body>
+</html>

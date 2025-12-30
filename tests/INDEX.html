@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Žaidimų Paieškos Tinklalapis - Test Suite</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #1a1a2e 100%);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .test-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .test-card:hover {
+            transform: translateY(-5px);
+        }
+        .test-card h3 {
+            margin: 0 0 15px 0;
+            color: #00D4AA;
+            font-size: 18px;
+        }
+        .test-card p {
+            margin: 10px 0;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+        .test-link {
+            display: inline-block;
+            background: linear-gradient(45deg, #00D4AA, #00b894);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        .test-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 170, 0.3);
+        }
+        .main-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .main-link {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px 40px;
+            text-decoration: none;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        .main-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        .status {
+            background: rgba(0, 212, 170, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #00D4AA;
+        }
+        .category {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        .category h2 {
+            margin: 0 0 20px 0;
+            color: #ffa502;
+            border-bottom: 2px solid #ffa502;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 Žaidimų Paieškos Tinklalapis</h1>
+            <p>Pilnas Test Suite ir Dokumentacija</p>
+            <p><strong>Eneba Clone</strong> - React + Node.js + SQLite + Giant Bomb API</p>
+        </div>
+
+        <div class="main-links">
+            <a href="http://localhost:3000" class="main-link" target="_blank">
+                🌐 Atidaryti Tinklalapį
+            </a>
+            <a href="http://localhost:5000/api/list" class="main-link" target="_blank">
+                🔧 Backend API
+            </a>
+            <a href="../DOKUMENTACIJA.md" class="main-link" target="_blank">
+                📚 Dokumentacija
+            </a>
+        </div>
+
+        <div class="status">
+            <h3>✅ Projekto Būsena</h3>
+            <p><strong>Visi reikalavimai įvykdyti:</strong> React frontend, Node.js backend, SQL duomenų bazė, fuzzy search, 10 žaidimų</p>
+            <p><strong>Nuotraukos:</strong> Giant Bomb API + fallback sistema (Wikipedia, Steam, RAWG)</p>
+            <p><strong>Funkcionalumas:</strong> Paieška, filtravimas, responsive dizainas, toast notifications</p>
+        </div>
+
+        <div class="category">
+            <h2>🔧 Pagrindiniai Testai</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3>🎯 API Testas</h3>
+                    <p>Patikrina, ar backend grąžina tinkamus duomenis ir cover'ių URL</p>
+                    <a href="test-frontend-api.html" class="test-link">Testuoti API</a>
+                </div>
+
+                <div class="test-card">
+                    <h3>🖼️ Nuotraukų Testas</h3>
+                    <p>Tiesiogiai testuoja, ar žaidimų cover'iai užsikrauna iš backend URL</p>
+                    <a href="test-direct-images.html" class="test-link">Testuoti Cover'ius</a>
+                </div>
+
+                <div class="test-card">
+                    <h3>✅ Sėkmės Testas</h3>
+                    <p>Rodo galutinį rezultatą su tikrais cover'iais ir funkcionalumu</p>
+                    <a href="SUCCESS-real-covers.html" class="test-link">Žiūrėti Rezultatą</a>
+                </div>
+
+                <div class="test-card">
+                    <h3>🔄 Refresh Instrukcijos</h3>
+                    <p>Instrukcijos, kaip išspręsti cache problemas ir atnaujinti cover'ius</p>
+                    <a href="refresh-page.html" class="test-link">Cache Sprendimas</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>🔍 Specializuoti Testai</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3>⚽ FIFA 23 Cover Testas</h3>
+                    <p>Specialus testas FIFA 23 cover'ių paieškai ir patikrinimui</p>
+                    <a href="test-correct-fifa.html" class="test-link">FIFA Testas</a>
+                </div>
+
+                <div class="test-card">
+                    <h3>🎮 Giant Bomb API</h3>
+                    <p>Testuoja Giant Bomb API integraciją automatinėms nuotraukoms</p>
+                    <a href="test-giant-bomb-api.html" class="test-link">API Testas</a>
+                </div>
+
+                <div class="test-card">
+                    <h3>📊 Dabartiniai Cover'iai</h3>
+                    <p>Rodo, kokius cover'ius dabar naudoja sistema</p>
+                    <a href="test-current-covers.html" class="test-link">Dabartiniai</a>
+                </div>
+
+                <div class="test-card">
+                    <h3>🏆 Galutinis Testas</h3>
+                    <p>Komprehensyvus testas visų funkcijų ir cover'ių</p>
+                    <a href="FINAL-TEST.html" class="test-link">Galutinis</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>📚 Dokumentacija ir Istorija</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3>📋 Pilna Dokumentacija</h3>
+                    <p>Visa projekto dokumentacija vienoje vietoje</p>
+                    <a href="../DOKUMENTACIJA.md" class="test-link">Skaityti</a>
+                </div>
+
+                <div class="test-card">
+                    <h3>🚀 Deployment Guide</h3>
+                    <p>Instrukcijos, kaip deploy'inti į Vercel, Netlify, Heroku</p>
+                    <a href="../DEPLOYMENT.md" class="test-link">Deploy Guide</a>
+                </div>
+
+                <div class="test-card">
+                    <h3>📖 README</h3>
+                    <p>Projekto aprašymas ir greito paleidimo instrukcijos</p>
+                    <a href="../README.md" class="test-link">README</a>
+                </div>
+
+                <div class="test-card">
+                    <h3>🔧 Istoriniai Testai</h3>
+                    <p>Visi kiti test failai problemų sprendimo istorijoje</p>
+                    <a href="#" class="test-link" onclick="showAllTests()">Rodyti Visus</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="status">
+            <h3>🎯 Kaip Naudoti</h3>
+            <p><strong>1. Paleidimas:</strong> <code>npm run dev</code> (arba atskirai backend ir frontend)</p>
+            <p><strong>2. Testuoti:</strong> Naudokite aukščiau esančius testus problemų diagnostikai</p>
+            <p><strong>3. Deployment:</strong> Sekite DEPLOYMENT.md instrukcijas</p>
+            <p><strong>4. Problemos:</strong> Patikrinkite refresh-page.html cache sprendimams</p>
+        </div>
+
+        <div id="all-tests" style="display: none;">
+            <div class="category">
+                <h2>📁 Visi Test Failai</h2>
+                <div class="test-grid">
+                    <div class="test-card"><h3>test-fifa-alternatives.html</h3><p>FIFA 23 alternatyvūs šaltiniai</p></div>
+                    <div class="test-card"><h3>test-fifa-covers.html</h3><p>FIFA 23 cover'ių paieška</p></div>
+                    <div class="test-card"><h3>test-final-images.html</h3><p>Galutinių nuotraukų testas</p></div>
+                    <div class="test-card"><h3>test-images.html</h3><p>Originalus nuotraukų testas</p></div>
+                    <div class="test-card"><h3>test-real-covers.html</h3><p>Tikrų cover'ių testas</p></div>
+                    <div class="test-card"><h3>test-working.html</h3><p>Veikiančio sprendimo testas</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showAllTests() {
+            const allTests = document.getElementById('all-tests');
+            allTests.style.display = allTests.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Automatiškai patikrinti API būseną
+        async function checkStatus() {
+            try {
+                const backendResponse = await fetch('http://localhost:5000/api/health');
+                const frontendResponse = await fetch('http://localhost:3000');
+                
+                console.log('✅ Backend:', backendResponse.ok ? 'Veikia' : 'Neveikia');
+                console.log('✅ Frontend:', frontendResponse.ok ? 'Veikia' : 'Neveikia');
+            } catch (error) {
+                console.log('⚠️ Serveriai gali būti išjungti');
+            }
+        }
+
+        checkStatus();
+    </script>
+</body>
+</html>

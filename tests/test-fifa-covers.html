@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIFA 23 Cover Testas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #1a1a2e 100%);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .cover-test {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .cover-test img {
+            width: 200px;
+            height: 133px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .cover-info h3 {
+            margin: 0 0 10px 0;
+            color: #00D4AA;
+        }
+        .cover-info p {
+            margin: 5px 0;
+            opacity: 0.9;
+        }
+        .url {
+            font-size: 12px;
+            color: #ccc;
+            word-break: break-all;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .wrong {
+            border-left: 4px solid #ff4757;
+        }
+        .correct {
+            border-left: 4px solid #00D4AA;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 FIFA 23 Cover Paieška</h1>
+        <p>Testuojame skirtingus FIFA 23 cover'ius iš RAWG API</p>
+        
+        <div class="cover-test wrong">
+            <img src="https://media.rawg.io/media/games/83f/83f6f70a7c1b86cd2637b029d8b42caa.jpg" alt="FIFA 23 - Netinkamas">
+            <div class="cover-info">
+                <h3>❌ Dabartinis (NETINKAMAS)</h3>
+                <p>Šis cover rodo ne FIFA 23, o kažkokį fantasy žaidimą</p>
+                <div class="url">https://media.rawg.io/media/games/83f/83f6f70a7c1b86cd2637b029d8b42caa.jpg</div>
+            </div>
+        </div>
+
+        <div class="cover-test">
+            <img src="https://media.rawg.io/media/games/8cc/8cce7c0e99dcc43d66c8efd42f9d03e3.jpg" alt="FIFA 23 - Variantas 1">
+            <div class="cover-info">
+                <h3>🔍 Variantas 1</h3>
+                <p>RAWG FIFA 23 alternatyva</p>
+                <div class="url">https://media.rawg.io/media/games/8cc/8cce7c0e99dcc43d66c8efd42f9d03e3.jpg</div>
+            </div>
+        </div>
+
+        <div class="cover-test">
+            <img src="https://media.rawg.io/media/games/d58/d588947d4286e7b5e0e12e1bea7d9844.jpg" alt="FIFA 23 - Variantas 2">
+            <div class="cover-info">
+                <h3>🔍 Variantas 2</h3>
+                <p>Kitas RAWG FIFA 23 cover</p>
+                <div class="url">https://media.rawg.io/media/games/d58/d588947d4286e7b5e0e12e1bea7d9844.jpg</div>
+            </div>
+        </div>
+
+        <div class="cover-test">
+            <img src="https://media.rawg.io/media/games/b49/b4912b5dbfc7646a0a877c520e7754ae.jpg" alt="FIFA 23 - Variantas 3">
+            <div class="cover-info">
+                <h3>🔍 Variantas 3</h3>
+                <p>Dar vienas FIFA 23 bandymas</p>
+                <div class="url">https://media.rawg.io/media/games/b49/b4912b5dbfc7646a0a877c520e7754ae.jpg</div>
+            </div>
+        </div>
+
+        <div class="cover-test">
+            <img src="https://media.rawg.io/media/games/043/0434f9b1c7c2b6c2cc93a8d33488a1c8.jpg" alt="FIFA 23 - Variantas 4">
+            <div class="cover-info">
+                <h3>🔍 Variantas 4</h3>
+                <p>FIFA 23 iš kitos RAWG kategorijos</p>
+                <div class="url">https://media.rawg.io/media/games/043/0434f9b1c7c2b6c2cc93a8d33488a1c8.jpg</div>
+            </div>
+        </div>
+
+        <div class="cover-test">
+            <img src="https://media.rawg.io/media/games/f87/f87457e8347484033cb34cde6101d08d.jpg" alt="FIFA 23 - Variantas 5">
+            <div class="cover-info">
+                <h3>🔍 Variantas 5</h3>
+                <p>Paskutinis FIFA 23 bandymas</p>
+                <div class="url">https://media.rawg.io/media/games/f87/f87457e8347484033cb34cde6101d08d.jpg</div>
+            </div>
+        </div>
+
+        <h2>🎯 Instrukcijos:</h2>
+        <p>1. Pažiūrėkite, kuris cover rodo tikrą FIFA 23 žaidimą</p>
+        <p>2. Turėtų būti futbolo žaidėjas su EA SPORTS logotipu</p>
+        <p>3. Pranešite, kuris variantas tinkamas!</p>
+    </div>
+
+    <script>
+        // Patikriname, kurios nuotraukos užsikrauna
+        const images = document.querySelectorAll('.cover-test img');
+        
+        images.forEach((img, index) => {
+            img.onload = () => {
+                console.log(`✅ Cover ${index + 1} užsikrovė: ${img.src}`);
+            };
+            
+            img.onerror = () => {
+                console.error(`❌ Cover ${index + 1} nepavyko: ${img.src}`);
+                img.parentElement.style.opacity = '0.5';
+            };
+        });
+    </script>
+</body>
+</html>

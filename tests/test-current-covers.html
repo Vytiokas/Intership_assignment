@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dabartinių Cover'ių Testas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #1a1a2e 100%);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .game-card {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .game-card img {
+            width: 200px;
+            height: 267px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .game-info h3 {
+            margin: 0 0 10px 0;
+            color: #00D4AA;
+        }
+        .game-info p {
+            margin: 5px 0;
+            opacity: 0.9;
+        }
+        .url {
+            font-size: 12px;
+            color: #ccc;
+            word-break: break-all;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .status {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        .success {
+            border-left: 4px solid #00D4AA;
+        }
+        .error {
+            border-left: 4px solid #ff4757;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #00D4AA;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Dabartinių Cover'ių Testas</h1>
+        <p>Tiesiogiai testuojame cover'ius iš backend API</p>
+        
+        <div class="status success">
+            <h3>📊 Backend API Duomenys</h3>
+            <p><strong>Endpoint:</strong> http://localhost:5000/api/list</p>
+            <p><strong>Testuojame:</strong> Ar nuotraukos iš tikrųjų užsikrauna</p>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Kraunami žaidimai iš API...</p>
+        </div>
+
+        <div id="games-container"></div>
+
+        <div class="status success">
+            <h3>🎯 Sprendimas</h3>
+            <p>Jei cover'iai čia veikia, bet tinklalapyje ne - reikia:</p>
+            <p>1. <strong>Atnaujinti naršyklę:</strong> Ctrl+F5 (hard refresh)</p>
+            <p>2. <strong>Išvalyti cache:</strong> Developer Tools → Application → Clear Storage</p>
+            <p>3. <strong>Patikrinti Console:</strong> F12 → Console ar yra klaidų</p>
+        </div>
+    </div>
+
+    <script>
+        async function loadGames() {
+            try {
+                console.log('🔄 Kraunami žaidimai...');
+                
+                const response = await fetch('http://localhost:5000/api/list');
+                const data = await response.json();
+                
+                console.log('📊 API atsakymas:', data);
+                
+                if (data.games && data.games.length > 0) {
+                    displayGames(data.games);
+                } else {
+                    showError('Žaidimų nerasta API atsakyme');
+                }
+                
+            } catch (error) {
+                console.error('❌ API klaida:', error);
+                showError(`API klaida: ${error.message}`);
+            }
+        }
+
+        function displayGames(games) {
+            const container = document.getElementById('games-container');
+            const loading = document.getElementById('loading');
+            
+            loading.style.display = 'none';
+            
+            games.forEach((game, index) => {
+                const gameDiv = document.createElement('div');
+                gameDiv.className = 'game-card';
+                
+                gameDiv.innerHTML = `
+                    <img src="${game.image_url}" alt="${game.name}" 
+                         onload="console.log('✅ Cover ${index + 1} užsikrovė:', this.src)"
+                         onerror="console.error('❌ Cover ${index + 1} nepavyko:', this.src); this.style.border='2px solid #ff4757';">
+                    <div class="game-info">
+                        <h3>${game.name}</h3>
+                        <p><strong>Platform:</strong> ${game.platform}</p>
+                        <p><strong>Region:</strong> ${game.region}</p>
+                        <p><strong>Price:</strong> €${game.price}</p>
+                        ${game.original_price ? `<p><strong>Original:</strong> €${game.original_price} (-${game.discount}%)</p>` : ''}
+                        <div class="url">${game.image_url}</div>
+                    </div>
+                `;
+                
+                container.appendChild(gameDiv);
+            });
+            
+            console.log(`✅ Parodyti ${games.length} žaidimai`);
+        }
+
+        function showError(message) {
+            const container = document.getElementById('games-container');
+            const loading = document.getElementById('loading');
+            
+            loading.style.display = 'none';
+            
+            container.innerHTML = `
+                <div class="status error">
+                    <h3>❌ Klaida</h3>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+
+        // Pradėti testą
+        loadGames();
+    </script>
+</body>
+</html>

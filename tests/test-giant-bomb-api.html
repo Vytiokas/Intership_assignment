@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giant Bomb API Testas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #1a1a2e 100%);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .status {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        .success {
+            border-left: 4px solid #00D4AA;
+        }
+        .info {
+            border-left: 4px solid #007bff;
+        }
+        .warning {
+            border-left: 4px solid #ffa502;
+        }
+        .error {
+            border-left: 4px solid #ff4757;
+        }
+        .game-result {
+            background: rgba(255, 255, 255, 0.05);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .game-result img {
+            width: 100px;
+            height: 133px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .game-info h4 {
+            margin: 0 0 5px 0;
+            color: #00D4AA;
+        }
+        .game-info p {
+            margin: 2px 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #00D4AA;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Giant Bomb API Testas</h1>
+        <p>Testuojame automatinę žaidimų cover'ių paiešką per Giant Bomb API</p>
+        
+        <div class="status info">
+            <h3>🔧 API Konfigūracija</h3>
+            <p><strong>API Key:</strong> 4d3c22f77ed638c276aab3ea6cd6d3af3a344179</p>
+            <p><strong>Endpoint:</strong> https://www.giantbomb.com/api/search/</p>
+            <p><strong>Funkcionalumas:</strong> Automatinė paieška pagal žaidimo pavadinimą</p>
+        </div>
+
+        <div class="status warning">
+            <h3>⚡ Kaip Veiks</h3>
+            <p>1. <strong>Išvalo pavadinimą:</strong> "FIFA 23 (PlayStation 5) PSN Key EUROPE" → "FIFA 23"</p>
+            <p>2. <strong>Ieško Giant Bomb:</strong> API grąžins oficialų FIFA 23 cover'į</p>
+            <p>3. <strong>Fallback:</strong> Jei API nepavyks, naudos Wikipedia/Steam cover'ius</p>
+            <p>4. <strong>Cache:</strong> Rezultatai bus cache'inami greičiui</p>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Testuojame API su mūsų žaidimais...</p>
+        </div>
+
+        <div id="results" style="display: none;">
+            <div class="status success">
+                <h3>✅ API Testas Baigtas</h3>
+                <p>Žemiau matysite rezultatus kiekvienam žaidimui</p>
+            </div>
+            
+            <div id="game-results"></div>
+        </div>
+
+        <div class="status info">
+            <h3>🚀 Privalumai</h3>
+            <p><strong>• Automatinis:</strong> Nereikia rankiniu būdu ieškoti cover'ių</p>
+            <p><strong>• Tikslus:</strong> Giant Bomb turi oficialius gaming cover'ius</p>
+            <p><strong>• Scalable:</strong> Lengvai pridėti naujus žaidimus</p>
+            <p><strong>• Patikimas:</strong> Fallback sistema jei API nepavyks</p>
+        </div>
+    </div>
+
+    <script>
+        // Testuojame API su mūsų žaidimais
+        const testGames = [
+            'FIFA 23 (PlayStation 5) PSN Key EUROPE',
+            'Red Dead Redemption 2 (PC) Rockstar Key GLOBAL',
+            'Split Fiction EA App Key (PC) GLOBAL'
+        ];
+
+        async function testAPI() {
+            const resultsDiv = document.getElementById('game-results');
+            
+            for (const gameName of testGames) {
+                try {
+                    console.log(`🔍 Testuojame: ${gameName}`);
+                    
+                    // Simuliuojame backend API kvietimą
+                    const response = await fetch(`http://localhost:5000/api/list?search=${encodeURIComponent(gameName.split(' ')[0])}`);
+                    const data = await response.json();
+                    
+                    if (data.games && data.games.length > 0) {
+                        const game = data.games[0];
+                        
+                        const gameDiv = document.createElement('div');
+                        gameDiv.className = 'game-result';
+                        gameDiv.innerHTML = `
+                            <img src="${game.image_url}" alt="${game.name}" onerror="this.style.opacity='0.5'">
+                            <div class="game-info">
+                                <h4>${game.name}</h4>
+                                <p><strong>Platform:</strong> ${game.platform}</p>
+                                <p><strong>Price:</strong> €${game.price}</p>
+                                <p><strong>Image URL:</strong> ${game.image_url}</p>
+                                <p><strong>Source:</strong> ${game.image_url.includes('giantbomb') ? 'Giant Bomb API' : 'Fallback'}</p>
+                            </div>
+                        `;
+                        resultsDiv.appendChild(gameDiv);
+                        
+                        console.log(`✅ ${game.name}: ${game.image_url}`);
+                    }
+                    
+                } catch (error) {
+                    console.error(`❌ Klaida testuojant ${gameName}:`, error);
+                    
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'game-result';
+                    errorDiv.style.borderLeft = '4px solid #ff4757';
+                    errorDiv.innerHTML = `
+                        <div style="width: 100px; height: 133px; background: #ff4757; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px;">ERROR</div>
+                        <div class="game-info">
+                            <h4>${gameName}</h4>
+                            <p><strong>Klaida:</strong> ${error.message}</p>
+                        </div>
+                    `;
+                    resultsDiv.appendChild(errorDiv);
+                }
+            }
+            
+            // Paslėpti loading, parodyti rezultatus
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+        }
+
+        // Palaukti 2 sekundes ir pradėti testą
+        setTimeout(testAPI, 2000);
+    </script>
+</body>
+</html>
